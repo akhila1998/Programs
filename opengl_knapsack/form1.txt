@@ -1,0 +1,61 @@
+form1.vb
+
+Imports System.Data.SqlClient
+
+Public Class Form1
+    Private con As SqlConnection = New SqlConnection("Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\lenovo\documents\visual studio 2015\Projects\templedb\templedb\templedatabase.mdf")
+    ' Private con As SqlConnection = New SqlConnection("Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename="c:\users\lenovo\documents\visual studio 2015\Projects\templedb\templedb\templedatabase.mdf";Integrated Security=True")
+    Private Sub DevoteeBindingNavigatorSaveItem_Click(sender As Object, e As EventArgs) Handles DevoteeBindingNavigatorSaveItem.Click
+        Me.Validate()
+        Me.DevoteeBindingSource.EndEdit()
+        Me.TableAdapterManager.UpdateAll(Me.Devotee)
+
+    End Sub
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'TODO: This line of code loads data into the 'Devotee._devotee' table. You can move, or remove it, as needed.
+        Me.DevoteeTableAdapter.Fill(Me.Devotee._devotee)
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Me.con.Open()
+        Dim cmd As SqlCommand = Me.con.CreateCommand
+        cmd.CommandText = ("insert into devotee values('" + (Member_noTextBox.Text) + "','" + (Devotee_nameTextBox.Text) + "','" + (Ward_noTextBox.Text) + "','" + (House_noTextBox.Text) + "','" + (AreaTextBox.Text) + "','" + (Mobile_noTextBox.Text) + "','" + (BloodgroupTextBox.Text) + "','" + (CastTextBox.Text) + "','" + (EducationTextBox.Text) + "','" + (OccupationTextBox.Text) + "','" + (PincodeTextBox.Text) + "')")
+        cmd.ExecuteNonQuery()
+        Me.con.Close()
+        MessageBox.Show("Data inserted Successfully")
+    End Sub
+
+    Private Sub BindingNavigatorDeleteItem_Click(sender As Object, e As EventArgs) Handles BindingNavigatorDeleteItem.Click
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.con.Open()
+        Dim cmd As SqlCommand = Me.con.CreateCommand
+        cmd.CommandText = ("delete from devotee where member_no= ('" + (Member_noTextBox.Text) + "')")
+        cmd.ExecuteNonQuery()
+        Me.con.Close()
+        MessageBox.Show("Data deleted Successfully")
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Me.con.Open()
+        Dim cmd As SqlCommand = Me.con.CreateCommand
+        ' cmd.CommandText = ("update devotee set devotee_name= '" + (Devotee_nameTextBox.Text) + "'ward_no='" + (Ward_noTextBox.Text) + "'house_no='" + (House_noTextBox.Text) + "'area='" + (AreaTextBox.Text) + "'mobile_no='" + (Mobile_noTextBox.Text) + "'bloodgroup='" + (BloodgroupTextBox.Text) + "'cast='" + (CastTextBox.Text) + "'education='" + (EducationTextBox.Text) + "'occupation='" + (OccupationTextBox.Text) + "'pincode='" + (PincodeTextBox.Text) + "'where member_no='" + (Member_noTextBox.Text) + "'")
+        cmd.CommandText = ("update devotee set devotee_name= '" + (Devotee_nameTextBox.Text) + "'ward_no='" + (Ward_noTextBox.Text) + "' where member_no='" + (Member_noTextBox.Text) + "'")
+
+        cmd.ExecuteNonQuery()
+        Me.con.Close()
+        MessageBox.Show("Data updated Successfully")
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim f2 As New Form2
+        f2.Show()
+
+
+    End Sub
+End Class
